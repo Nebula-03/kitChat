@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "410920814420",
+    "project_id": "kitchat-920d3",
+    "storage_bucket": "kitchat-920d3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:410920814420:android:e559208e14a1bcf469eac1",
+        "android_client_info": {
+          "package_name": "com.example.kitchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh85FycVipn_kUxi_HPR8ZUP7dSMiPwk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:410920814420:android:7eb9e5cea768a7cf69eac1",
+        "android_client_info": {
+          "package_name": "com.example.practice_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh85FycVipn_kUxi_HPR8ZUP7dSMiPwk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
