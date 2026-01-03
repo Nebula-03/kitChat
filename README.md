@@ -41,6 +41,8 @@ This project demonstrates **authentication workflows, real-time database integra
 
 ## 📱 App Screenshots
 
+| Login | Signup | Home |
+| Create group | New group chat | Join group |
 |-------------|------------|------------|
 | ![Login](screenshots/login_page.jpeg) | ![Signup](screenshots/signup_page.jpeg) | ![Home](screenshots/home_page.jpeg) |
 | ![Create Group](screenshots/create_group.jpeg) | ![new Chat](screenshots/new_group_chat.jpeg) | ![Join group](screenshots/join_group.jpeg) |
