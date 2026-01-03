@@ -45,7 +45,7 @@ This project demonstrates **authentication workflows, real-time database integra
 |-------------|------------|------------|
 | ![Login](screenshots/login_page.jpeg) | ![Signup](screenshots/signup_page.jpeg) | ![Home](screenshots/home_page.jpeg) |
 | ![Create Group](screenshots/create_group.jpeg) | ![new Chat](screenshots/new_group_chat.jpeg) | ![Join group](screenshots/join_group.jpeg) |
-| ![Chat page](screenshots/chat_page.jpeg) | ![Add button](screenshots/add_button.jpeg) | ![Sidebar](screenshots/sidebar_jpeg) |
+| ![Chat page](screenshots/chat_page.jpeg) | ![Add button](screenshots/add_button.jpeg) | ![Sidebar](screenshots/sidebar.jpeg) |
 
 ---
 
