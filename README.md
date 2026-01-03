@@ -1,16 +1,55 @@
-# kitchat
+# 💬 KitChat – Group Chat Mobile Application
 
-A new Flutter project.
+KitChat is a Flutter-based **real-time group chat application** built using **Firebase Authentication and Cloud Firestore**.  
+The app enables secure user login and instant messaging with a clean, responsive UI.
 
-## Getting Started
+This project demonstrates **authentication workflows, real-time database integration, and dynamic UI updates** in Flutter.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## ✨ Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- 🔐 Secure user authentication (Email & Password)
+- 💬 Real-time group messaging using Firestore
+- 🔄 Instant UI updates without manual refresh
+- 📱 Clean and responsive Material UI
+- 🔁 Persistent login sessions
+- 🚪 Logout functionality
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🛠 Tech Stack
+
+- **Flutter**
+- **Dart**
+- **Firebase Authentication**
+- **Cloud Firestore**
+- **Material UI**
+- **Git & GitHub**
+
+---
+
+## 🔄 App Flow
+
+1. User registers or logs in
+2. Firebase verifies authentication
+3. Logged-in users enter group chat
+4. Messages sync in real time
+5. User can logout anytime
+
+---
+
+## 📱 App Screenshots
+
+| Login Screen | Chat Screen | Group Chat |
+|-------------|------------|------------|
+| ![Login](screenshots/login_page.jpeg) | ![Signup](screenshots/signup_page.jpeg) | ![Home](screenshots/home_page.jpeg) |
+| ![Create Group](screenshots/create_group.jpeg) | ![new Chat](screenshots/new_group_chat.jpeg) | ![Join group](screenshots/join_group.jpeg) |
+| ![Chat page](screenshots/chat_page.jpeg) | ![Add button](screenshots/add_button.jpeg) | ![Sidebar](screenshots/sidebar_jpeg) |
+
+---
+
+## 👤 Author
+
+**Nikita Mandal**  
+Flutter Developer | UI/UX Enthusiast
