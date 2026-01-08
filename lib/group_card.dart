@@ -4,6 +4,7 @@ class GroupCard extends StatelessWidget {
   final String groupId;
   final String groupName;
   final int members;
+  final bool isTyping;
   final VoidCallback onTap;
 
   const GroupCard({
@@ -11,6 +12,7 @@ class GroupCard extends StatelessWidget {
     required this.groupId,
     required this.groupName,
     required this.members,
+    required this.isTyping,
     required this.onTap,
   });
 
@@ -46,9 +48,11 @@ class GroupCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      "$members member",
+                      isTyping ? "typing..." : "$members member",
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: Colors.grey.shade700,
+                        fontStyle:
+                        isTyping ? FontStyle.italic : FontStyle.normal,
                       ),
                     ),
                   ],

@@ -104,11 +104,14 @@ class HomePage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final data =
                 groups[index].data() as Map<String, dynamic>;
-      
+
+                final typingUsers = data['typingUsers'] ?? {};
+
                 return GroupCard(
                   groupId: groups[index].id,
                   groupName: data['name'],
                   members: (data['members'] as List).length,
+                  isTyping: typingUsers.isNotEmpty,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -121,6 +124,8 @@ class HomePage extends StatelessWidget {
                     );
                   },
                 );
+
+
               },
             );
           },

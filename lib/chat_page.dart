@@ -19,11 +19,25 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController messageController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-
   final user = FirebaseAuth.instance.currentUser;
 
-  /// 🔹 SEND MESSAGE
+  Future<void> setTyping(bool isTyping) async {
+    if (user == null) return;
+
+    final ref =
+    FirebaseFirestore.instance.collection('groups').doc(widget.groupId);
+
+    if (isTyping) {
+      await ref.update({
+        'typingUsers.${user!.uid}': user!.email,
+      });
+    } else {
+      await ref.update({
+        'typingUsers.${user!.uid}': FieldValue.delete(),
+      });
+    }
+  }
+
   Future<void> sendMessage() async {
     if (messageController.text.trim().isEmpty || user == null) return;
 
@@ -39,15 +53,7 @@ class _ChatPageState extends State<ChatPage> {
     });
 
     messageController.clear();
-
-    // Scroll to bottom after sending
-    Future.delayed(const Duration(milliseconds: 300), () {
-      if (_scrollController.hasClients) {
-        _scrollController.jumpTo(
-          _scrollController.position.maxScrollExtent,
-        );
-      }
-    });
+    await setTyping(false);
   }
 
   @override
@@ -71,45 +77,34 @@ class _ChatPageState extends State<ChatPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(widget.groupName),
-              const Text(
-                "Tap for group info",
-                style: TextStyle(fontSize: 12),
-              ),
+              const Text("Tap for group info", style: TextStyle(fontSize: 12)),
             ],
           ),
         ),
       ),
-
       body: Column(
         children: [
-          /// 🔹 MESSAGES
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('groups')
                   .doc(widget.groupId)
                   .collection('messages')
-                  .orderBy('timestamp')
+                  .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+                if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
-                }
-
-                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(child: Text("No messages yet"));
                 }
 
                 final messages = snapshot.data!.docs;
 
                 return ListView.builder(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  reverse: true,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final data =
                     messages[index].data() as Map<String, dynamic>;
-
                     final isMe = data['senderId'] == user!.uid;
 
                     return Align(
@@ -120,13 +115,12 @@ class _ChatPageState extends State<ChatPage> {
                             vertical: 4, horizontal: 8),
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: isMe
-                              ? Colors.blueGrey
-                              : Colors.grey.shade300,
+                          color:
+                          isMe ? Colors.blueGrey : Colors.grey.shade300,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          data['text'] ?? '',
+                          data['text'],
                           style: TextStyle(
                             color: isMe ? Colors.white : Colors.black,
                           ),
@@ -139,7 +133,39 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ),
 
-          /// 🔹 INPUT BAR
+          StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('groups')
+                .doc(widget.groupId)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return const SizedBox();
+
+              final data = snapshot.data!.data() as Map<String, dynamic>;
+              final typingUsers = Map<String, dynamic>.from(
+                  data['typingUsers'] ?? {});
+
+              typingUsers.remove(user!.uid);
+
+              if (typingUsers.isEmpty) return const SizedBox();
+
+              return Padding(
+                padding: const EdgeInsets.only(left: 12, bottom: 4),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "${typingUsers.values.join(', ')} typing...",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.indigo,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+
           Padding(
             padding: const EdgeInsets.all(8),
             child: Row(
@@ -147,6 +173,13 @@ class _ChatPageState extends State<ChatPage> {
                 Expanded(
                   child: TextField(
                     controller: messageController,
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        setTyping(true);
+                      } else {
+                        setTyping(false);
+                      }
+                    },
                     decoration: const InputDecoration(
                       hintText: "Type a message",
                       border: OutlineInputBorder(),
