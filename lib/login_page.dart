@@ -17,11 +17,23 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> loginUser() async {
     setState(() => loading = true);
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Login successful"),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      await Future.delayed(const Duration(seconds: 2));
 
       Navigator.pushAndRemoveUntil(
         context,
@@ -42,67 +54,79 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset("assets/images/logo.png", height: 140),
-                const SizedBox(height: 20),
-                const Text(
-                  "Welcome, to kitchat",
-                  style: TextStyle(
-                    fontFamily: 'Billabong',
-                    fontSize: 25,
-                    color: Colors.blueGrey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 40),
-                _field("Your mail id", emailController),
-                const SizedBox(height: 20),
-                _field("Password", passwordController, obscure: true),
-                const SizedBox(height: 25),
-                loading
-                    ? const CircularProgressIndicator()
-                    : ElevatedButton(
-                  onPressed: loginUser,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueGrey,
-                    elevation: 8,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
-                  ),
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                const Text("Don't have account?", style: TextStyle(color: Colors.blueGrey,fontStyle: FontStyle.italic),),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const SignupPage(),
+        child: Column(
+          children: [
+            if (loading) const LinearProgressIndicator(minHeight: 2),
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/logo.png", height: 140),
+                      const SizedBox(height: 20),
+                      const Text(
+                        "Welcome, to kitchat",
+                        style: TextStyle(
+                          fontFamily: 'Billabong',
+                          fontSize: 25,
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    );
-                  },
-                  child: const Text(
-                    "Sign up",
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      decoration: TextDecoration.underline,
-                    ),
+                      const SizedBox(height: 40),
+                      _field("Your mail id", emailController),
+                      const SizedBox(height: 20),
+                      _field("Password", passwordController, obscure: true),
+                      const SizedBox(height: 25),
+                      loading
+                          ? const CircularProgressIndicator()
+                          : ElevatedButton(
+                        onPressed: loginUser,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueGrey,
+                          elevation: 8,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 12),
+                        ),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      const Text(
+                        "Don't have account?",
+                        style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontStyle: FontStyle.italic),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SignupPage(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Sign up",
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

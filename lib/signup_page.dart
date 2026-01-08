@@ -47,6 +47,17 @@ class _SignupPageState extends State<SignupPage> {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Successfully signed up"),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      await Future.delayed(const Duration(seconds: 2));
+
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
@@ -62,35 +73,42 @@ class _SignupPageState extends State<SignupPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Colors.white, elevation: 0),
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Image.asset("assets/images/logo.png", height: 140),
-                const SizedBox(height: 20),
-                _field("Email", emailController),
-                const SizedBox(height: 12),
-                _field("Phone number", phoneController),
-                const SizedBox(height: 12),
-                _field("Username", nameController),
-                const SizedBox(height: 12),
-                _field("Password", passwordController, obscure: true),
-                const SizedBox(height: 25),
-                loading
-                    ? const CircularProgressIndicator()
-                    : ElevatedButton(
-                  onPressed: signUpUser,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueGrey,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100)),
+        child: Column(
+          children: [
+            if (loading) const LinearProgressIndicator(minHeight: 2),
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Image.asset("assets/images/logo.png", height: 140),
+                      const SizedBox(height: 20),
+                      _field("Email", emailController),
+                      const SizedBox(height: 12),
+                      _field("Phone number", phoneController),
+                      const SizedBox(height: 12),
+                      _field("Username", nameController),
+                      const SizedBox(height: 12),
+                      _field("Password", passwordController, obscure: true),
+                      const SizedBox(height: 25),
+                      loading
+                          ? const CircularProgressIndicator()
+                          : ElevatedButton(
+                        onPressed: signUpUser,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueGrey,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100)),
+                        ),
+                        child: const Text("Create account",
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
                   ),
-                  child: const Text("Create account",
-                      style: TextStyle(color: Colors.white)),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
